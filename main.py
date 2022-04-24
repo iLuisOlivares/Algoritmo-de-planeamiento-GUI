@@ -41,8 +41,8 @@ class MainGui(tk.Frame):
         self.n_procesos.pack(expand=True,fill='both')
 
 
-        self.boton2 = tk.Button(self.frame, text="Simular", command=self.simular)
-        self.boton2.pack(expand=True,fill='both')
+        self.simular = tk.Button(self.frame, text="Simular", command=self.simular, state=tk.DISABLED)
+        self.simular.pack(expand=True,fill='both')
 
          
         self.nombre_proceso = tk.StringVar()
@@ -90,8 +90,24 @@ class MainGui(tk.Frame):
         self.insert_prioridad = ttk.Spinbox(frame2, state="readonly", from_=0, to=30, width=30, textvariable=self.prioridad)
         self.insert_prioridad.pack(expand=True,fill='both')
 
-        self.boton2 = tk.Button(frame2, text="Agregar Proceso", command=self.imprimir)
-        self.boton2.pack(expand=True,fill='both')
+        self.agregar = tk.Button(frame2, text="Agregar Proceso", command=self.imprimir)
+        self.agregar.pack(expand=True,fill='both')
+
+        self.reset = tk.Button(frame2, text="Reset procesos", command=self.reset)
+        self.reset.pack(expand=True,fill='both')
+
+    def reset(self):
+        list_procesos1.clear()
+        list_procesos4.clear()
+        self.countt.set(0)
+        self.simular["state"] = tk.DISABLED
+        self.insert_tiempo_cpu.set(0)
+        self.insert_tiempo_llegada.set(0)
+        self.insert_prioridad.set(0)
+
+        self.insert_nombre.delete(0,"end")
+        self.insert_nombre.insert(0,f"Proceso #{self.countt.get()}")
+
 
     def imprimir(self):
         self.countt.set(self.countt.get() + 1)
@@ -102,6 +118,13 @@ class MainGui(tk.Frame):
         list_procesos1.append(Proceso(nombre_proceso,tiempo_llegada,tiempo_cpu,prioridad))
         list_procesos4.append(Proceso_expropiativo(nombre_proceso,tiempo_llegada,tiempo_cpu,prioridad))
         
+
+        if self.countt.get() > 8:
+            self.simular["state"] = tk.DISABLED
+        elif self.countt.get() > 3:
+            self.simular["state"] = tk.NORMAL
+        
+
         self.insert_tiempo_cpu.set(0)
         self.insert_tiempo_llegada.set(0)
         self.insert_prioridad.set(0)

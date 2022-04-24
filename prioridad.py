@@ -5,7 +5,6 @@ from table import runTable
 
 logging.basicConfig(level=logging.DEBUG, format='%(threadName)s: %(message)s')
 
-
 def prios(list, n):
     procesos_completados = 0
     time = min(int(x.tiempo_llegada) for x in list)
